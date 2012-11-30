@@ -1,3 +1,3 @@
 class Trait < ActiveRecord::Base
-  attr_accessible :details, :name
+  attr_accessible :attack, :defense, :details, :dexterity, :intelligence, :name, :wisdom
 end

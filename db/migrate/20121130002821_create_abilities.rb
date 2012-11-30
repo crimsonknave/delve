@@ -1,6 +1,6 @@
-class CreateTraits < ActiveRecord::Migration
+class CreateAbilities < ActiveRecord::Migration
   def change
-    create_table :traits do |t|
+    create_table :abilities do |t|
       t.string :name
       t.text :details
 

@@ -1,3 +1,3 @@
 class Character < ActiveRecord::Base
-  attr_accessible :attack, :defense, :dexterity, :health, :intelligence, :name, :wisdom
+  attr_accessible :game_id, :health, :name
 end

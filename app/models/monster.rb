@@ -1,3 +1,3 @@
 class Monster < ActiveRecord::Base
-  attr_accessible :attack, :defense, :details, :dexterity, :intelligence, :name, :wisdom
+  attr_accessible :details, :dexterity, :intelligence, :level, :name, :wisdom
 end

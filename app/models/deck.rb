@@ -1,3 +1,3 @@
 class Deck < ActiveRecord::Base
-  attr_accessible :level, :name, :type
+  attr_accessible :game_id, :level, :type
 end

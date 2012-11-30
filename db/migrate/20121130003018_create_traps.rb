@@ -3,8 +3,9 @@ class CreateTraps < ActiveRecord::Migration
     create_table :traps do |t|
       t.string :name
       t.integer :level
-      t.integer :treasures
       t.text :details
+      t.string :check_type
+      t.integer :check_difficulty
 
       t.timestamps
     end
