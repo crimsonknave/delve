@@ -1,0 +1,2 @@
+class Boots < Item
+end

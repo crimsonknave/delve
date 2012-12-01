@@ -1,3 +1,18 @@
 class Card < ActiveRecord::Base
-  attr_accessible :character_id, :discard_id, :draw_id, :item_id, :monster_id, :order, :surpirse_id, :trait_id, :trap_id, :type
+  attr_accessible :attack, :check_difficulty, :defense, :details, :dexterity, :intelligence, :kind, :level, :name, :order, :type, :wisdom
+
+  scope :level_one, where(:level => 1)
+  scope :level_two, where(:level => 2)
+  scope :level_three, where(:level => 3)
+
+  scope :item, where(:kind => "Item")
+  scope :trait, where(:kind => "Trait")
+
+  scope :stat_card, where(:kind => ["Item", "Trait"])
+
+  scope :encounter, where(:kind => "Encounter")
+  scope :event, where(:kind => "Event")
+
+  has_many :card_instances
+  has_many :characters, :through => :card_instances
 end

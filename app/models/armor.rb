@@ -1,0 +1,2 @@
+class Armor < Item
+end

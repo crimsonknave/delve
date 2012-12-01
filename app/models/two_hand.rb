@@ -1,0 +1,2 @@
+class TwoHand < Item
+end

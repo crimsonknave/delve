@@ -22,8 +22,6 @@ GEM
       activesupport (= 3.2.9)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activerecord-mysql2-adapter (0.0.3)
-      mysql2
     activeresource (3.2.9)
       activemodel (= 3.2.9)
       activesupport (= 3.2.9)
@@ -118,9 +116,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-mysql2-adapter
   coffee-rails (~> 3.2.1)
   jquery-rails
+  mysql2
   rails (= 3.2.9)
   rspec-rails
   sass-rails (~> 3.2.3)
