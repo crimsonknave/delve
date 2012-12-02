@@ -9,17 +9,27 @@ class Deck < ActiveRecord::Base
   has_many :discards, :through => :discard_instances, :source => :card, :order => "card_instances.order asc"
 
   validates :level, :presence => :true, :inclusion => { :in => [-1,1,2,3] }, :uniqueness => { :scope => [:game_id, :type] }
-  validates :type, :presence => :true, :inclusion => { :in => ["EncounterDeck", "ItemDeck", "EventDeck", "TraitDeck"] }
+  validates :type, :presence => :true, :inclusion => { :in => ["EncounterDeck", "ItemDeck", "EventDeck", "TraitDeck", "DiscardDeck"] }
 
-  def draw!(cid = false, number = 1)
-    cid = game.current_player.id unless cid
+  scope :item, where(:type => "ItemDeck")
+  scope :encounter, where(:type => "EncounterDeck")
+  scope :event, where(:type => "EventDeck")
+  scope :trait, where(:type => "TraitDeck")
+  scope :discard, where(:type => "DiscardDeck")
+  scope :level_one, where(:level => 1)
+  scope :level_two, where(:level => 2)
+  scope :level_three, where(:level => 3)
+
+  def draw!(char = false, number = 1)
+    char = game.current_player unless char
     cards = []
     number.times do
       c = draw_instances.first
       c.draw_id = nil
-      c.character_id = cid
+      c.character_id = char.id
+      c.order = char.card_instances.maximum(:order).to_i + 1
       c.save!
-      cards << c
+      cards << c.card
     end
     cards
   end

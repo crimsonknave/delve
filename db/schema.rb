@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121201233454) do
+ActiveRecord::Schema.define(:version => 20121202041847) do
 
   create_table "card_instances", :force => true do |t|
     t.integer  "card_id"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20121201233454) do
     t.integer  "charges"
     t.boolean  "active"
     t.integer  "order"
+    t.boolean  "held"
   end
 
   create_table "cards", :force => true do |t|

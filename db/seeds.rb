@@ -42,7 +42,8 @@ check_for_errors(chars)
 
 decks = Deck.create([{:type => "EncounterDeck", :level => 1, :game_id => game.id},
             {:type => "ItemDeck", :level => 1, :game_id => game.id},
-            {:type => "TraitDeck", :level => -1, :game_id => game.id}
+            {:type => "TraitDeck", :level => -1, :game_id => game.id},
+            {:type => "DiscardDeck", :level => -1, :game_id => game.id}
 ])
 check_for_errors(decks)
 

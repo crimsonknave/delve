@@ -13,6 +13,15 @@ class Card < ActiveRecord::Base
   scope :encounter, where(:kind => "Encounter")
   scope :event, where(:kind => "Event")
 
+  scope :equiped, where("card_instances.active = true")
+  scope :carried, where("card_instances.active = false and card_instances.held = true")
+
+  scope :armor, where(:type => "Armor")
+  scope :helm, where(:type => "Helm")
+  scope :boots, where(:type => "Boots")
+  scope :other, where(:type => "Other")
+  scope :consumable, where(:type => "Consumable")
+
   has_many :card_instances
   has_many :characters, :through => :card_instances
 
