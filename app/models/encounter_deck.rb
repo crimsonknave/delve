@@ -1,0 +1,2 @@
+class EncounterDeck < Deck
+end

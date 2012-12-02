@@ -24,12 +24,49 @@ cards = Card.create([
 # Example game
 # ######
 
-game = Game.create({:name => "Test Game"})
-
-Character.create([{:name => "Player 1", :health => 4, :game_id => game.id}, {:name => "Player 2", :health => 4, :game_id => game.id}])
-
-cards.each do |c|
-  char = c.kind_of?(Item) ? Character.first : Character.last
-  ci = CardInstance.create({:card_id => c.id, :character_id => char.id, :game_id => game.id})
-  puts ci.errors.inspect
+errors = []
+def check_for_errors(collection)
+  collection.each do |c|
+    unless c.valid?
+      puts c.errors.full_messages
+      errors.push(c.errors.full_messages)
+    end
+  end
 end
+
+game = Game.create({:name => "Test Game"})
+check_for_errors([game])
+
+chars = Character.create([{:name => "Player 1", :health => 4, :game_id => game.id}, {:name => "Player 2", :health => 4, :game_id => game.id}])
+check_for_errors(chars)
+
+decks = Deck.create([{:type => "EncounterDeck", :level => 1, :game_id => game.id},
+            {:type => "ItemDeck", :level => 1, :game_id => game.id},
+            {:type => "TraitDeck", :level => -1, :game_id => game.id}
+])
+check_for_errors(decks)
+
+
+
+order = 1
+card_instances = []
+Card.all.each do |c|
+  if c.is_a?(Item)
+    deck = Deck.find_by_type("ItemDeck")
+  elsif c.is_a?(Encounter)
+    deck = Deck.find_by_type("EncounterDeck")
+  elsif c.is_a?(Trait)
+    deck = Deck.find_by_type("TraitDeck")
+  else
+    puts "Unknown card type #{c.class} for #{c.inspect}"
+    next
+  end
+  ci = CardInstance.create({:card_id => c.id, :draw_id => deck.id, :game_id => game.id, :order => order})
+  card_instances.push(ci)
+  order += 1
+end
+check_for_errors(card_instances)
+
+puts "==========================="
+puts "found #{errors.size} errors"
+puts "==========================="

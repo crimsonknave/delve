@@ -15,4 +15,12 @@ class Card < ActiveRecord::Base
 
   has_many :card_instances
   has_many :characters, :through => :card_instances
+
+
+  validates :name, :presence => true, :uniqueness => true
+
+  def instance(game_id)
+    card_instances.where(:game_id => game_id).first
+  end
+
 end

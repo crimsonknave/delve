@@ -1,0 +1,2 @@
+class ItemDeck < Deck
+end

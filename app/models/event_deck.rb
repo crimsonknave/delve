@@ -1,0 +1,2 @@
+class EventDeck < Deck
+end

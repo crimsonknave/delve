@@ -8,6 +8,13 @@ class Character < ActiveRecord::Base
   has_many :encounters, :through => :card_instances # Aggro tokens
   has_many :events, :through => :card_instances # Aggro tokens
 
+  belongs_to :game
+
+  def draw!(type, level, number = 1)
+    type = "#{type.capitalize}Deck" unless /\w+(Deck)/.match(type)
+    game.decks.where(:type => type, :level => level).first.draw!(id, number)
+  end
+
   def attack
     1 + cards.stat_card.sum(:attack)
   end
