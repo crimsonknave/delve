@@ -2,6 +2,9 @@ class Game < ActiveRecord::Base
   attr_accessible :name
   has_many :card_instances
   has_many :cards, :through => :card_instances
+  has_many :tile_instances
+  has_many :tiles, :through => :tile_instances
+
   has_many :decks
   has_many :characters
 

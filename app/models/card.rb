@@ -21,6 +21,7 @@ class Card < ActiveRecord::Base
   scope :boots, where(:type => "Boots")
   scope :other, where(:type => "Other")
   scope :consumable, where(:type => "Consumable")
+  scope :hands, where(:type => ["OneHand", "TwoHand"])
 
   has_many :card_instances
   has_many :characters, :through => :card_instances

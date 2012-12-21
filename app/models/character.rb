@@ -3,6 +3,8 @@ class Character < ActiveRecord::Base
 
   has_many :card_instances, :autosave => true
   has_many :cards, :through => :card_instances
+  has_many :tile_instances, :autosave => true
+  has_many :tiles, :through => :tile_instances
 
   validate :gear_limits
 
@@ -71,20 +73,20 @@ class Character < ActiveRecord::Base
   end
 
   def attack
-    1 + cards.active.stat_card.sum(:attack)
+    1 + cards.equiped.stat_card.sum(:attack)
   end
 
   def defense
-    1 + cards.active.stat_card.sum(:defense)
+    1 + cards.equiped.stat_card.sum(:defense)
   end
 
   def dexterity
-    3 + cards.active.stat_card.sum(:dexterity)
+    3 + cards.equiped.stat_card.sum(:dexterity)
   end
   def intelligence
-    3 + cards.active.stat_card.sum(:intelligenc)
+    3 + cards.equiped.stat_card.sum(:intelligenc)
   end
   def wisdom
-    3 + cards.active.stat_card.sum(:wisdom)
+    3 + cards.equiped.stat_card.sum(:wisdom)
   end
 end
