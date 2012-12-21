@@ -1,5 +1,9 @@
 require 'spec_helper'
 
 describe Card do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:name) }
+  
+
+  its(:level_one) { should be_defined }
 end
