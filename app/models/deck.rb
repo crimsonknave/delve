@@ -34,25 +34,26 @@ class Deck < ActiveRecord::Base
     cards
   end
 
+  def shuffle_cards(cards)
+    ActiveRecord::Base.transaction do
+      cards.each_with_index do |c,i|
+        c.order = i
+        c.draw_id = id
+        c.discard_id = nil
+        c.save!(:validate => false)
+      end
+      raise ActiveRecord::Rollback if cards.map(&:valid?).include? false
+    end
+
+  end
   def shuffle!
     cards = draw_instances.shuffle
-    cards.each_with_index do |c,i|
-      c.order = i
-      c.save!
-    end
-    true
+    shuffle_cards(cards)
   end
 
   def shuffle_with_discard!
-    cards = draw_instances + discard_instances
-    cards.shuffle
-    cards.each_with_index do |c,i|
-      c.order = i
-      c.draw_id = id
-      c.discard_id = nil
-      c.save!
-    end
-    true
+    cards = (draw_instances + discard_instances).shuffle
+    shuffle_cards(cards)
   end
 
 end
