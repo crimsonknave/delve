@@ -5,5 +5,6 @@ describe Card do
   it { should validate_uniqueness_of(:name) }
   
 
-  its(:level_one) { should be_defined }
+  #its(:level_one) { should be_defined }
+  it { should respond_to(:level_one) }
 end
