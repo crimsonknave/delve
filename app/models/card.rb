@@ -1,5 +1,5 @@
 class Card < ActiveRecord::Base
-  attr_accessible :attack, :check_difficulty, :defense, :details, :dexterity, :intelligence, :kind, :level, :name, :order, :type, :wisdom
+  attr_accessible :aggro, :attack, :base_movement, :check_difficulty, :defense, :details, :dexterity, :intelligence, :kind, :level, :movement_range, :name, :order, :treasures, :type, :value, :willpower
 
   scope :level_one, where(:level => 1)
   scope :level_two, where(:level => 2)

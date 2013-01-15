@@ -1,5 +1,5 @@
 class Character < ActiveRecord::Base
-  attr_accessible :game_id, :health, :name
+  attr_accessible :damage, :game_id, :health, :order, :name, :stamina
 
   has_many :card_instances, :autosave => true
   has_many :cards, :through => :card_instances
@@ -13,9 +13,24 @@ class Character < ActiveRecord::Base
 
   belongs_to :game
 
-  def end_turn
-    game.current_player_id = next_player.first.id
-    game.save!
+  before_create :set_defaults
+
+  before_save :check_damage
+
+  class ExhausedError < Exception; end
+
+  def set_defaults
+    self.stamina = 6
+    self.damage = 0
+    self.health = 4
+  end
+
+  def check_damage
+    return if damage.nil? || health.nil?
+    if damage >= defense
+      self.health = (health - 1)
+      self.damage = 0
+    end
   end
 
   def next_player
@@ -39,6 +54,22 @@ class Character < ActiveRecord::Base
   def draw!(type, level, number = 1)
     type = "#{type.capitalize}Deck" unless /\w+(Deck)/.match(type)
     game.decks.where(:type => type, :level => level).first.draw!(self, number)
+  end
+
+  def fight(monster)
+    raise ExhaustedError unless stamina > 0
+    mi = monster.instance(game.id)
+    self.stamina = stamina - 1
+    self.damage = damage + monster.attack
+    mi.damage = mi.damage + attack
+    mi.save!
+    save!
+    monster
+  end
+
+  def regain_stamina
+    regen = (damage >= defense/2) ? 2 : 3
+    self.stamina = self.stamina <= (self.stamina - regen) ? self.stamina + regen : 6
   end
 
   def equip!(card)
@@ -102,7 +133,7 @@ class Character < ActiveRecord::Base
   def intelligence
     3 + cards.equiped.stat_card.sum(:intelligenc)
   end
-  def wisdom
-    3 + cards.equiped.stat_card.sum(:wisdom)
+  def willpower
+    3 + cards.equiped.stat_card.sum(:willpower)
   end
 end

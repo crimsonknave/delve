@@ -15,6 +15,7 @@ class Game < ActiveRecord::Base
   #end
 
   def end_turn
+    current_player.regain_stamina
     self.current_player_id = current_player.next_player.first.id
     save!
   end

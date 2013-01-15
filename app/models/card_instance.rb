@@ -1,5 +1,5 @@
 class CardInstance < ActiveRecord::Base
-  attr_accessible :active, :card_id, :character_id, :charges, :discard_id, :draw_id, :game_id, :order
+  attr_accessible :active, :card_id, :character_id, :charges, :damage, :discard_id, :draw_id, :game_id, :order
 
   belongs_to :game
   belongs_to :character, :autosave => true
@@ -13,6 +13,15 @@ class CardInstance < ActiveRecord::Base
   validates :charges, :numericality => { :only_integer => true, :allow_nil => true }
 
   validate :owned_by_something
+
+  before_create :set_defaults
+
+  def set_defaults
+    self.damage = 0
+    self.charges = 0
+    self.active = false
+    true
+  end
 
   def owned_by_something
     errors.add(:base, "must be owned by something") unless draw_id || discard_id || character_id
