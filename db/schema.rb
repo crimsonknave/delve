@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115011231) do
+ActiveRecord::Schema.define(:version => 20130115044459) do
 
   create_table "card_instances", :force => true do |t|
     t.integer  "card_id"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20130115011231) do
     t.boolean  "active"
     t.integer  "order"
     t.boolean  "held"
+    t.integer  "damage"
   end
 
   create_table "cards", :force => true do |t|
@@ -34,13 +35,18 @@ ActiveRecord::Schema.define(:version => 20130115011231) do
     t.string   "name"
     t.integer  "dexterity"
     t.integer  "intelligence"
-    t.integer  "wisdom"
+    t.integer  "willpower"
     t.integer  "attack"
     t.integer  "defense"
     t.integer  "check_difficulty"
     t.string   "kind"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.integer  "value"
+    t.integer  "treasures"
+    t.integer  "aggro"
+    t.integer  "base_movement"
+    t.integer  "movement_range"
   end
 
   create_table "characters", :force => true do |t|
@@ -50,6 +56,8 @@ ActiveRecord::Schema.define(:version => 20130115011231) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "order"
+    t.integer  "stamina"
+    t.integer  "damage"
   end
 
   create_table "decks", :force => true do |t|
