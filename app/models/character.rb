@@ -6,9 +6,25 @@ class Character < ActiveRecord::Base
   has_many :tile_instances, :autosave => true
   has_many :tiles, :through => :tile_instances
 
+  has_one :current_player_of, class_name: "Game", foreign_key: :current_player_id
+
   validate :gear_limits
+  validates :order, presence: true, numericality: { only_integer: true }
 
   belongs_to :game
+
+  def end_turn
+    game.current_player_id = next_player.first.id
+    game.save!
+  end
+
+  def next_player
+    game.characters.where(:order => (order + 1) % game.characters.size)
+  end
+
+  def previous_player
+    game.characters.where(:order => (order - 1) % game.characters.size)
+  end
 
   def gear_limits
     errors.add(:armor, "may only equip one armor") if cards.armor.equiped.size > 1
@@ -26,7 +42,7 @@ class Character < ActiveRecord::Base
   end
 
   def equip!(card)
-    Card.transaction do 
+    Card.transaction do
       ci = card.instance(game.id)
 
       ci.active = true

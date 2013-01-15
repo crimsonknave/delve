@@ -20,6 +20,8 @@ class Deck < ActiveRecord::Base
   scope :level_two, where(:level => 2)
   scope :level_three, where(:level => 3)
 
+  class ShuffleError < ActiveRecord::ActiveRecordError; end
+
   def draw!(char = false, number = 1)
     char = game.current_player unless char
     cards = []
@@ -43,17 +45,19 @@ class Deck < ActiveRecord::Base
         c.save!(:validate => false)
       end
       raise ActiveRecord::Rollback if cards.map(&:valid?).include? false
+      return true #we succeeded
     end
-
+    false
   end
+
   def shuffle!
     cards = draw_instances.shuffle
-    shuffle_cards(cards)
+    raise ShuffleError unless shuffle_cards(cards)
   end
 
   def shuffle_with_discard!
     cards = (draw_instances + discard_instances).shuffle
-    shuffle_cards(cards)
+    raise ShuffleError unless shuffle_cards(cards)
   end
 
 end
