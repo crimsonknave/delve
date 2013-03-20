@@ -11,6 +11,7 @@ gem 'mysql2'
 group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda'
+  gem 'shoulda-matchers', '1.4.1' #Issue with 1.5.2
   gem 'factory_girl_rails'
 end
 
