@@ -131,7 +131,7 @@ class Character < ActiveRecord::Base
     3 + cards.equiped.stat_card.sum(:dexterity)
   end
   def intelligence
-    3 + cards.equiped.stat_card.sum(:intelligenc)
+    3 + cards.equiped.stat_card.sum(:intelligence)
   end
   def willpower
     3 + cards.equiped.stat_card.sum(:willpower)

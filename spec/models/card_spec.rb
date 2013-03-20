@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Card do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
-  
+  it { should have_many(:card_instances) }
+  it { should have_many(:characters) }
 
-  #its(:level_one) { should be_defined }
-  it { should respond_to(:level_one) }
+  it { should respond_to(:instance) }
 end

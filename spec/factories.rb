@@ -13,4 +13,13 @@ FactoryGirl.define do
     after :create do |game, opts|
     end
   end
+
+  factory :character do
+    sequence :name do |n|
+      "Character #{n}"
+    end
+    sequence :order do |n|
+      n
+    end
+  end
 end
